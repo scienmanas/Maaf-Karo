@@ -30,17 +30,22 @@ function UrlToFetch(userName: string) {
     profile: `https://api.github.com/users/${userName}`,
     profileReadme: `https://raw.githubusercontent.com/${userName}/${userName}/main/README.md`,
     profileRepos: `https://api.github.com/users/${userName}/repos?per_page=1000`, // to get all repos
-    lambda: "",
+    lambda:
+      "",
   };
 }
+
 export function Troller() {
   const [userImage, setUserImage] = useState<StaticImageData | null>(null);
   const [fetchedStatus, setFetchedStatus] = useState<string>("Get Trolled");
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [legend, setLegend] = useState(legends[0]);
+  const [trollResponse, setTrollResponse] = useState<string | null>(null);
+  const [showTypingCursor, setShowTypingCursor] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowTypingCursor(true);
     let userCapabilities: UserCapabilities = {
       name: "",
       reposReadme: [],
@@ -83,12 +88,16 @@ export function Troller() {
 
       // Fetch the readme
       setFetchedStatus("readme...");
-      await fetchReadme({
-        username: "scienmanas",
-        repository: "scienmanas",
-      }).then((readme) => {
-        userCapabilities.profileReadme = readme;
-      });
+      try {
+        await fetchReadme({
+          username: "scienmanas",
+          repository: "scienmanas",
+        }).then((readme) => {
+          userCapabilities.profileReadme = readme;
+        });
+      } catch (error) {
+        userCapabilities.profileReadme = "No readme found";
+      }
 
       // Fetch the repos
       setFetchedStatus("repos...");
@@ -98,6 +107,7 @@ export function Troller() {
           "Content-Type": "application/json",
         },
       });
+
       const AllReposData = await repos.json();
       const reposWithStarOrFork = await AllReposData.filter(
         (repo: any) => repo.stargazers_count > 0 || repo.forks > 0
@@ -109,33 +119,52 @@ export function Troller() {
       // Fetch the repos data
       setFetchedStatus("repos data...");
       for (const repo of reposNames) {
-        const readme = await fetchReadme({
-          username: userName,
-          repository: repo,
-        });;
-        userCapabilities.reposReadme.push({
-          name: repo,
-          readme: readme,
-        });
+        try {
+          const readme = await fetchReadme({
+            username: userName,
+            repository: repo,
+          });
+          userCapabilities.reposReadme.push({
+            name: repo,
+            readme: readme,
+          });
+        } catch (error) {
+          console.log("Lahg gayeeee");
+          userCapabilities.reposReadme.push({
+            name: repo,
+            readme: "No readme found",
+          });
+        }
       }
 
       // Call the genai lambda function & send teh converted json data
+      setFetchedStatus("Trolling...");
       const genaiResponse = await fetch(urls.lambda, {
         method: "POST",
         body: JSON.stringify({
+          // userName: userName,
           userData: userCapabilities,
-          legendData: legend,
+          // legendName: legend.name,
+          legendData: "He is legend Harry has 4000+ followers and 1000+ repos.",
         }),
       });
 
-      
-
-
+      const genaiResponseData = await genaiResponse.json();
+      if (genaiResponseData.statusCode === 200) {
+        const parsedData = JSON.parse(genaiResponseData.body);
+        console.log(parsedData);
+        setTrollResponse(parsedData.message || "No response generated");
+      } else {
+        setFetchedStatus("Get Trolled");
+        setUserImage(null);
+        setTrollResponse("");
+      }
     } catch (error) {
       console.log(error);
       // setError("User not found");
       // implement toast here
       setFetchedStatus("Get Trolled");
+      setTrollResponse("");
     } finally {
       setIsFetching(false);
       setFetchedStatus("Less Go");
@@ -253,6 +282,26 @@ export function Troller() {
           </div>
         </form>
       </div>
+
+      {trollResponse && (
+        <div className="response-container w-full max-w-2xl mx-auto">
+          <div className="bg-white border-2 border-black rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.1)] transform transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,0,0,0.15)]">
+            <h3 className="text-xl font-bold mb-4 pb-2 border-b-2 border-neutral-200">
+              Legend's Response 🔥
+            </h3>
+            <div className="response-text">
+              <ReactTyped
+                strings={[trollResponse]}
+                typeSpeed={40}
+                className="text-neutral-700 font-medium leading-relaxed"
+                cursorChar="|"
+                showCursor={showTypingCursor}
+                onComplete={() => setShowTypingCursor(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -19,9 +19,9 @@ const generationConfig = {
 
 export const handler = async (event) => {
     // Destructure
-    const { userData, legendData } = event;
-    const prompt = `You need to behave as an evaluator. Here is the github data of a user: ${userData}.
-    Carefully evaluate it against a well known legend data: ${legendData}. CTry to critize the user as much as possible maybe speak a few bad words too. But of the user profile is as good as legend then maybe praise a little bit. But most of the time try to crtize the user by making joke out of his profile so that he fells bad and improve himself.
+    const {userName, userData, legendName,legendData } = event;
+    const prompt = `You need to behave as an evaluator. There is a person named ${userName} and his github profile is like this: ${userData}.
+    Evaluate it against a well known legend coder named: ${legendName}, and his profile data is: ${legendData}. Try to critize the user as much as possible maybe speak a few bad words too. But of the user profile is as good as legend then maybe praise a little bit. But most of the time try to crtize the user by making joke out of his profile so that he fells bad and improve himself. Also some data have links ignore them you don't have to scrape. Your response should only include the evaluation result nothing else as it will passed to the frontend app directly. Directly give the response as if you were talking to him. You can use emojis also.
     `
 
     try {
