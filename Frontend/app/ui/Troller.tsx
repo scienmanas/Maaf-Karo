@@ -9,8 +9,8 @@ import { StaticImageData } from "next/image";
 import dummyImg from "@/public/dummy.png";
 import { fetchReadme } from "@varandas/fetch-readme";
 import markdownit from "markdown-it";
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 import mockAnimation from "@/public/animations/mock.gif";
 
 // init the markdown-it
