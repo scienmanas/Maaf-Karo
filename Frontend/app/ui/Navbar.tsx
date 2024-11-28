@@ -1,10 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import solanaImg from "@/public/button/solana-logo.png";
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 w-full border-b border-neutral-100 bg-white/80 backdrop-blur-md">
+    <nav className="sticky z-20 top-0 w-full border-b border-neutral-100 bg-white/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Name Section */}
@@ -20,7 +22,7 @@ export function Navbar() {
               className="transform hover:scale-105 transition-transform"
               target="_blank"
             >
-              <img
+              <Image
                 src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                 alt="Buy Me A Coffee"
                 width={120}

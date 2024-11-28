@@ -6,22 +6,14 @@ const genAI = new GoogleGenerativeAI(apiKey);
 
 // Get the tuned model & generation config 
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash"
+    model: "gemini-1.5-flash-8b"
 });
-const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 40,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-}
-
 
 export const handler = async (event) => {
     // Destructure
     const {userName, userData, legendName,legendData } = event;
     const prompt = `You need to behave as an evaluator. There is a person named ${userName} and his github profile is like this: ${userData}.
-    Evaluate it against a well known legend coder named: ${legendName}, and his profile data is: ${legendData}. Try to critize the user as much as possible maybe speak a few bad words too. But of the user profile is as good as legend then maybe praise a little bit. But most of the time try to crtize the user by making joke out of his profile so that he fells bad and improve himself. Also some data have links ignore them you don't have to scrape. Your response should only include the evaluation result nothing else as it will passed to the frontend app directly. Directly give the response as if you were talking to him. You can use emojis also.
+    Evaluate it against a well known legend coder named: ${legendName}, and his profile data is: ${legendData}. Try to critize the user, maybe speak a few bad words too, You job is also to tell where user lacks so that he improves, also praise him if his profile as good as ${legendName}. You are free to make joke out of the user profile so that he fells bad and improve himself if his profile is bad. Also some data may have links ignore the links, you don't have to scrape. Your response should only include the evaluation result nothing else as it will passed to the frontend app directly. Directly give the response as if you were talking to him. You can use emojis also. Also don't print uncessary [object] [object]thhing, handle carefully. Also there may be cases when you can encounter same profile of legend and user i.e. both name and profile almost same, if that occurs say: "Don't try to trick me you legend" with emojis, see it can occur so look carefully. Also there may be person of same name as that of legend if, you at that time profile will be differentiater, so basically analyse everything carefully.
     `
 
     try {

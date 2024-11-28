@@ -5,18 +5,25 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@varandas/fetch-readme": "^1.0.10",
+    "@vercel/analytics": "^1.4.1",
     "axios": "^1.7.8",
+    "markdown-it": "^14.1.0",
+    "markdown-to-jsx": "^7.7.0",
+    "next-sitemap": "^4.2.3",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
-    "react-typed": "^2.0.12"
+    "react-typed": "^2.0.12",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
