@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import landingImg from "@/public/metadata/landing.png";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from '@next/third-parties/google'
 // Vercel ang google analytics
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`m-0`}>
         {children}
+        <GoogleAnalytics gaId="G-MDTWV1E7TV" debugMode={false}/>
         <Analytics />
       </body>
     </html>
