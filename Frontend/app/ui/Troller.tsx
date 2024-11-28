@@ -49,7 +49,7 @@ function UrlToFetch(userName: string) {
     profileReadme: `https://raw.githubusercontent.com/${userName}/${userName}/main/README.md`,
     profileRepos: `https://api.github.com/users/${userName}/repos?per_page=1000`, // to get all repos
     lambda:
-      "https://gwepd693ua.execute-api.us-east-1.amazonaws.com/Production/maafkaro",
+      "https://ab53hahe57.execute-api.us-east-1.amazonaws.com/Production/maaf-karo",
   };
 }
 
