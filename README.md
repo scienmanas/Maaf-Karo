@@ -22,3 +22,5 @@ A simple web app that trolls you by critizing your github profile.
 - Run `npm run dev`
 
 ## Demo
+
+https://github.com/user-attachments/assets/05e26ff3-4be0-466c-a458-564e62b2e0ce
