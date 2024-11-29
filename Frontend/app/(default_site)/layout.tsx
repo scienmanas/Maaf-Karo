@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import landingImg from "@/public/metadata/landing.png";
+import legendaryRoyaleImg from "@/public/metadata/legendaryRoyale.png";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Navbar } from "@/app/ui/Navbar";
 import { Footer } from "@/app/ui/Footer";
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       "A fun trolling website! Compare your github profile with some well known github users and see how you fare.",
     type: "website",
     siteName: "Maaf Karo",
-    images: [landingImg.src],
+    images: [legendaryRoyaleImg.src],
   },
   twitter: {
     card: "summary_large_image",
     title: "Maaf Karo | Fun Trolling Website",
     description:
       "A fun trolling website! Compare your github profile with some well known github users and see how you fare.",
-    images: [landingImg.src],
+    images: [legendaryRoyaleImg.src],
   },
   robots: "index, follow",
 };

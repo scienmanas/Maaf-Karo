@@ -1,5 +1,6 @@
 import { BattleRoyale } from "@/app/ui/BattleRoyale";
 import { Metadata } from "next";
+import battleRoyaleImg from "@/public/metadata/battleRoyale.png";
 
 export const metadata: Metadata = {
   title: "Maaf Karo | Compete",
@@ -11,13 +12,13 @@ export const metadata: Metadata = {
     description: "Battle your friends on GitHub with github profiles.",
     type: "website",
     siteName: "Maaf Karo",
-    // images: [landingImg.src],
+    images: [battleRoyaleImg.src],
   },
   twitter: {
     card: "summary_large_image",
     title: "Maaf Karo | Compete",
     description: "Battle your friends on GitHub with github profiles.",
-    // images: [landingImg.src],
+    images: [battleRoyaleImg.src],
   },
   robots: "index, follow",
 };
