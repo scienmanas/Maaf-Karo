@@ -11,6 +11,7 @@ import { fetchReadme } from "@varandas/fetch-readme";
 import markdownit from "markdown-it";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Link from "next/link";
 import mockAnimation from "@/public/animations/mock.gif";
 
 // init the markdown-it
@@ -53,7 +54,7 @@ function UrlToFetch(userName: string) {
   };
 }
 
-export function Troller() {
+export function LegendTroller() {
   // Generate a unique form id
   const formId = uuidv4();
 
@@ -138,8 +139,8 @@ export function Troller() {
       setFetchedStatus("readme...");
       try {
         await fetchReadme({
-          username: "scienmanas",
-          repository: "scienmanas",
+          username: userName,
+          repository: userName,
         }).then((readme) => {
           userData.profileReadme = readme;
         });
@@ -226,10 +227,11 @@ export function Troller() {
       const genaiResponse = await fetch(urls.lambda, {
         method: "POST",
         body: JSON.stringify({
-          userName: userName,
-          userData: userParsedData,
-          legendName: currentLegend.data.name,
-          legendData: legendParsedData,
+          userName1: userName,
+          userData1: userParsedData,
+          userName2: currentLegend.data.name,
+          userData2: legendParsedData,
+          task: "legend",
         }),
       });
 
@@ -287,156 +289,166 @@ export function Troller() {
   return (
     <section
       id="maaf-karo"
-      className="flex flex-col w-full h-fit items-center justify-center gap-14 p-4 sm:p-8"
+      className="flex flex-col w-full h-fit items-center justify-center p-4 sm:p-8 gap-4"
     >
-      <div className="pics w-full h-fit flex flex-row items-center justify-center gap-4 sm:gap-6 md:gap-12">
-        <div className="legend-pic w-fit h-fit transform transition-transform hover:scale-105 duration-300">
-          <Image
-            src={userImage ? (userImage as StaticImageData) : dummyImg}
-            alt="user"
-            width={200}
-            height={200}
-            className="rounded-full shadow-[0_0_20px_rgba(0,0,0,0.2)] object-cover  border-4 border-black"
-          />
-        </div>
-        <div className="vs-symbol flex flex-col items-center gap-2">
-          <div className="text-sm sm:text-base md:text-xl lg:text-4xl font-black bg-black text-white px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl shadow-lg transform hover:scale-110 transition-transform duration-300">
-            VS
-          </div>
-          <div className="md:w-32 w-11 sm:w-20 h-1 bg-gradient-to-r from-transparent via-black to-transparent"></div>
-        </div>
-        <div className="user-pic w-fit h-fit transform transition-transform hover:scale-105 duration-300">
-          <Image
-            src={currentLegend.data.image as StaticImageData}
-            alt={currentLegend.data.name}
-            width={200}
-            height={200}
-            className="rounded-full aspect-square shadow-[0_0_20px_rgba(0,0,0,0.2)] object-cover object-center border-4 border-black"
-          />
-        </div>
+      <div className="text-sm sm:text-base new-app w-full h-fit flex items-start">
+        <Link href={"/compete"}>
+          <span className="underline decoration-cyan-500">
+            Try GitHub Battle Royale!
+          </span>
+          🔥
+        </Link>
       </div>
-      <div className="form w-full max-w-2xl mx-auto">
-        <form
-          onSubmit={handleSubmit}
-          className="relative flex flex-col w-full items-center gap-4 sm:gap-6 md:gap-8"
-        >
-          <div className="relative name-email flex flex-row gap-3 sm:gap-6 w-full justify-center items-center px-2 sm:px-3">
-            <label
-              htmlFor="userName"
-              className="user-name relative w-[49.5%] max-w-[250px] h-fit"
-            >
-              <input
-                minLength={2}
-                disabled={isFetching}
-                autoComplete="off"
-                required
-                placeholder="only username 😅"
-                type="text"
-                name="userName"
-                id="userName"
-                className="text-sm relative z-10 rounded-xl px-4 py-3 border-2 border-neutral-300 w-full h-12 bg-white sm:text-base outline-none hover:border-black focus:border-black transition-colors duration-300 text-neutral-800 placeholder:text-neutral-400"
-              />
-              <div className="text-sm sm:text-balance placeholder absolute z-20 top-0 left-2 -translate-y-1/2 px-2 bg-white text-black font-medium font-mono">
-                github
-              </div>
-            </label>
-
-            <label
-              htmlFor="legend"
-              className="legend-select relative w-[49.5%] max-w-[250px] h-fit"
-            >
-              <select
-                disabled={isFetching}
-                onChange={(e) =>
-                  setCurrentLegend(
-                    legends.find(
-                      (legend) => legend.id === Number(e.target.value)
-                    ) || legends[0]
-                  )
-                }
-                id="legend"
-                name="legend"
-                className="w-full text-sm sm:text-base h-12 rounded-xl px-4 py-3 bg-white border-2 border-neutral-300 hover:border-black transition-colors duration-300 cursor-pointer "
+      <div className="page-wrapper w-full h-fit flex flex-col items-center justify-center gap-14">
+        <div className="pics w-full h-fit flex flex-row items-center justify-center gap-4 sm:gap-6 md:gap-12">
+          <div className="legend-pic w-fit h-fit transform transition-transform hover:scale-105 duration-300">
+            <Image
+              src={userImage ? (userImage as StaticImageData) : dummyImg}
+              alt="user"
+              width={200}
+              height={200}
+              className="rounded-full shadow-[0_0_20px_rgba(0,0,0,0.2)] object-cover  border-4 border-black"
+            />
+          </div>
+          <div className="vs-symbol flex flex-col items-center gap-2">
+            <div className="text-sm sm:text-base md:text-xl lg:text-4xl font-black bg-black text-white px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl shadow-lg transform hover:scale-110 transition-transform duration-300">
+              VS
+            </div>
+            <div className="md:w-32 w-11 sm:w-20 h-1 bg-gradient-to-r from-transparent via-black to-transparent"></div>
+          </div>
+          <div className="user-pic w-fit h-fit transform transition-transform hover:scale-105 duration-300">
+            <Image
+              src={currentLegend.data.image as StaticImageData}
+              alt={currentLegend.data.name}
+              width={200}
+              height={200}
+              className="rounded-full aspect-square shadow-[0_0_20px_rgba(0,0,0,0.2)] object-cover object-center border-4 border-black"
+            />
+          </div>
+        </div>
+        <div className="form w-full max-w-2xl mx-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="relative flex flex-col w-full items-center gap-4 sm:gap-6 md:gap-8"
+          >
+            <div className="relative name-email flex flex-row gap-3 sm:gap-6 w-full justify-center items-center px-2 sm:px-3">
+              <label
+                htmlFor="userName"
+                className="user-name relative w-[49.5%] max-w-[250px] h-fit"
               >
-                {legends.map((legend, index) => (
-                  <option key={index} value={legend.id}>
-                    {legend.data.name}
-                  </option>
-                ))}
-              </select>
-              <div className="text-sm sm:text-base placeholder absolute z-20 top-0 left-2 -translate-y-1/2 px-2 bg-white text-black font-medium font-mono">
-                Legend 🔥
-              </div>
-            </label>
-          </div>
-          <input
-            required
-            type="text"
-            name="formId"
-            id="formId"
-            className="hidden"
-            hidden
-          />
-          <div className="buttons flex flex-row items-center justify-center gap-6">
-            <button
-              disabled={isFetching}
-              onClick={() => {
-                setUserImage(null);
-                setCurrentLegend(legends[0]);
-                setAIResponse(null);
-              }}
-              type="reset"
-              className={`w-32 h-12 rounded-xl bg-white border-2 border-black text-black font-medium transition-colors duration-300 ${
-                isFetching
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-red-700 hover:text-white"
-              }`}
-            >
-              Reset
-            </button>
-            <button
-              disabled={isFetching}
-              type="submit"
-              className={`w-36 h-12 rounded-xl bg-black font-semibold text-white  transition-colors duration-300 flex flex-row items-center justify-center gap-2 ${
-                isFetching
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:border-2 hover:border-black"
-              }`}
-            >
-              <span>{fetchedStatus}</span>
+                <input
+                  minLength={2}
+                  disabled={isFetching}
+                  autoComplete="off"
+                  required
+                  placeholder="only username 😅"
+                  type="text"
+                  name="userName"
+                  id="userName"
+                  className="text-sm relative z-10 rounded-xl px-4 py-3 border-2 border-neutral-300 w-full h-12 bg-white sm:text-base outline-none hover:border-black focus:border-black transition-colors duration-300 text-neutral-800 placeholder:text-neutral-400"
+                />
+                <div className="text-sm sm:text-balance placeholder absolute z-20 top-0 left-2 -translate-y-1/2 px-2 bg-white text-black font-medium font-mono">
+                  github
+                </div>
+              </label>
 
-              {isFetching && (
-                <SubmissionLoader color="pink" height="20px" width="20px" />
-              )}
-            </button>
-          </div>
-        </form>
-      </div>
+              <label
+                htmlFor="legend"
+                className="legend-select relative w-[49.5%] max-w-[250px] h-fit"
+              >
+                <select
+                  disabled={isFetching}
+                  onChange={(e) =>
+                    setCurrentLegend(
+                      legends.find(
+                        (legend) => legend.id === Number(e.target.value)
+                      ) || legends[0]
+                    )
+                  }
+                  id="legend"
+                  name="legend"
+                  className="w-full text-sm sm:text-base h-12 rounded-xl px-4 py-3 bg-white border-2 border-neutral-300 hover:border-black transition-colors duration-300 cursor-pointer "
+                >
+                  {legends.map((legend, index) => (
+                    <option key={index} value={legend.id}>
+                      {legend.data.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="text-sm sm:text-base placeholder absolute z-20 top-0 left-2 -translate-y-1/2 px-2 bg-white text-black font-medium font-mono">
+                  Legend 🔥
+                </div>
+              </label>
+            </div>
+            <input
+              required
+              type="text"
+              name="formId"
+              id="formId"
+              className="hidden"
+              hidden
+            />
+            <div className="buttons flex flex-row items-center justify-center gap-6">
+              <button
+                disabled={isFetching}
+                onClick={() => {
+                  setUserImage(null);
+                  setCurrentLegend(legends[0]);
+                  setAIResponse(null);
+                }}
+                type="reset"
+                className={`w-32 h-12 rounded-xl bg-white border-2 border-black text-black font-medium transition-colors duration-300 ${
+                  isFetching
+                    ? "opacity-70 cursor-not-allowed"
+                    : "hover:bg-red-700 hover:text-white"
+                }`}
+              >
+                Reset
+              </button>
+              <button
+                disabled={isFetching}
+                type="submit"
+                className={`w-36 h-12 rounded-xl bg-black font-semibold text-white  transition-colors duration-300 flex flex-row items-center justify-center gap-2 ${
+                  isFetching
+                    ? "opacity-70 cursor-not-allowed"
+                    : "hover:border-2 hover:border-black"
+                }`}
+              >
+                <span>{fetchedStatus}</span>
 
-      {AIResponse === null || undefined ? (
-        <div className="mock-animation w-full max-w-2xl mx-auto flex items-center justify-center">
-          <Image src={mockAnimation} alt="mock" width={200} height={200} />
+                {isFetching && (
+                  <SubmissionLoader color="pink" height="20px" width="20px" />
+                )}
+              </button>
+            </div>
+          </form>
         </div>
-      ) : (
-        <div
-          ref={responseContainerRef}
-          className="response-container w-full max-w-2xl mx-auto"
-        >
-          <div className="bg-white border-2 border-black rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.1)] transform transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,0,0,0.15)]">
-            <h3 className="text-xl font-bold mb-4 pb-2 border-b-2 border-neutral-200">
-              Response 🔥
-            </h3>
-            <div className="response-text">
-              <ReactTyped
-                strings={[AIResponse]}
-                typeSpeed={20}
-                className="text-neutral-700 font-medium leading-relaxed"
-                showCursor={false}
-              />
+
+        {AIResponse === null || undefined ? (
+          <div className="mock-animation w-full max-w-2xl mx-auto flex items-center justify-center">
+            <Image src={mockAnimation} alt="mock" width={200} height={200} />
+          </div>
+        ) : (
+          <div
+            ref={responseContainerRef}
+            className="response-container w-full max-w-2xl mx-auto"
+          >
+            <div className="bg-white border-2 border-black rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.1)] transform transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,0,0,0.15)]">
+              <h3 className="text-xl font-bold mb-4 pb-2 border-b-2 border-neutral-200">
+                Response 🔥
+              </h3>
+              <div className="response-text">
+                <ReactTyped
+                  strings={[AIResponse]}
+                  typeSpeed={17}
+                  className="text-neutral-700 font-medium leading-relaxed"
+                  showCursor={false}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }
