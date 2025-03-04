@@ -107,6 +107,15 @@ export function LegendTroller() {
       return;
     }
 
+    // handle same username
+    if (userName === currentLegend.data.github) {
+      setFetchedStatus("Get feedback");
+      setIsFetching(false);
+      setAIResponse("Same username, pls don't trick me.");
+      setUserImage(null);
+      return;
+    }
+
     // Get the legend about data
     legendData.aboutData = legend?.data.about as string;
 
