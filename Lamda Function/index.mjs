@@ -6,7 +6,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 
 // Get the tuned model & generation config 
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash-8b"
+    model: "gemini-2.0-flash"
 });
 
 
