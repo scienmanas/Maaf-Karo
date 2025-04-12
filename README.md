@@ -26,3 +26,8 @@ A simple web app that trolls you by critizing your github profile.
 https://github.com/user-attachments/assets/05e26ff3-4be0-466c-a458-564e62b2e0ce
 
 <!-- GitAds-Verify: UEL2KORA4RHWW3QHXQACAC8RLWZ41AD5 -->
+
+
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=scienmanas/maaf-karo@github)](https://gitads.dev/v1/ad-track?source=scienmanas/maaf-karo@github)
+
